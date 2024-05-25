@@ -11,42 +11,53 @@ struct ContentView: View {
 
     @ObservedObject var manager = LocationManager()
 
+    /// 選択した計測精度。
+    @State private var selection = 1
+    /// ピッカーの表示/非表示フラグ。
+    @State private var isShowingPicker = false
+
     var body: some View {
         NavigationStack {
-            MapView()
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color("main"), for: .navigationBar)
-            .toolbar(.visible, for: .navigationBar)
-            .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    VStack {
-                        Image("play")
-                            .setUpToolbarImageStyle(isEnabled: true, onTapGesture: {})
-                        Text("START")
-                            .setUpToolbarTextStyle(isEnabled: true, onTapGesture: {})
+            ZStack {
+                MapView()
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbarBackground(Color("main"), for: .navigationBar)
+                    .toolbar(.visible, for: .navigationBar)
+                    .toolbar {
+                        ToolbarItemGroup(placement: .bottomBar) {
+                            VStack {
+                                Image("play")
+                                    .setUpToolbarImageStyle(isEnabled: true, onTapGesture: { isShowingPicker.toggle() })
+                                Text("START")
+                                    .setUpToolbarTextStyle(isEnabled: true, onTapGesture: { isShowingPicker.toggle() })
+                            }
+                            Spacer()
+                            VStack {
+                                Image("stop")
+                                    .setUpToolbarImageStyle(isEnabled: false, onTapGesture: {})
+                                Text("STOP")
+                                    .setUpToolbarTextStyle(isEnabled: false, onTapGesture: {})
+                            }
+                            Spacer()
+                            VStack {
+                                Image("view")
+                                    .setUpToolbarImageStyle(isEnabled: true, onTapGesture: {})
+                                Text("FOOT VIEW")
+                                    .setUpToolbarTextStyle(isEnabled: true, onTapGesture: {})
+                            }
+                            Spacer()
+                            VStack {
+                                Image("settings")
+                                    .setUpToolbarImageStyle(isEnabled: true, onTapGesture: {})
+                                Text("SETTINGS")
+                                    .setUpToolbarTextStyle(isEnabled: true, onTapGesture: {})
+                            }
+                        }
                     }
-                    Spacer()
-                    VStack {
-                        Image("stop")
-                            .setUpToolbarImageStyle(isEnabled: false, onTapGesture: {})
-                        Text("STOP")
-                            .setUpToolbarTextStyle(isEnabled: false, onTapGesture: {})
-                    }
-                    Spacer()
-                    VStack {
-                        Image("view")
-                            .setUpToolbarImageStyle(isEnabled: true, onTapGesture: {})
-                        Text("FOOT VIEW")
-                            .setUpToolbarTextStyle(isEnabled: true, onTapGesture: {})
-                    }
-                    Spacer()
-                    VStack {
-                        Image("settings")
-                            .setUpToolbarImageStyle(isEnabled: true, onTapGesture: {})
-                        Text("SETTINGS")
-                            .setUpToolbarTextStyle(isEnabled: true, onTapGesture: {})
-                    }
-                }
+
+                PickerView(selection: $selection, isShowing: $isShowingPicker)
+                    .animation(.linear, value: isShowingPicker)
+                    .offset(y: isShowingPicker ? 0 : UIScreen.main.bounds.height)
             }
         }
         .tint(.black)
@@ -79,7 +90,7 @@ extension Image {
 
 extension Text {
 
-    func setUpToolbarTextStyle(isEnabled: Bool,onTapGesture: @escaping () -> Void) -> some View {
+    func setUpToolbarTextStyle(isEnabled: Bool, onTapGesture: @escaping () -> Void) -> some View {
         self.font(.footnote)
             .foregroundStyle(isEnabled ? .white : .gray)
             .onTapGesture {
