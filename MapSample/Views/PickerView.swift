@@ -13,6 +13,8 @@ struct PickerView: View {
     @Binding var selection: Int
     /// ピッカーが表示されている状態かどうか。
     @Binding var isShowing: Bool
+    /// 「Done」ボタンがタップされたかどうか。
+    @Binding var isTappedDoneButton: Bool
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,9 +35,8 @@ struct PickerView: View {
                 // Doneタップで非表示化
                 Button {
                     isShowing = false
+                    isTappedDoneButton = true
                 } label: {
-                    // TODO: ContentViewにDoneタップを渡す？
-                    // ここでタイトル入力のアラートを出す？
                     Text("Done")
                         .tint(.blue)
                 }
@@ -60,9 +61,12 @@ struct PickerView: View {
     }
 }
 
+// MARK: - Preview
+
 #Preview {
     @State var selection = 0
     @State var isShowing = true
+    @State var isTappedDoneButton = false
 
-    return PickerView(selection: $selection, isShowing: $isShowing)
+    return PickerView(selection: $selection, isShowing: $isShowing, isTappedDoneButton: $isTappedDoneButton)
 }

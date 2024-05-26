@@ -8,9 +8,13 @@
 import Foundation
 import CoreLocation
 
+/// 位置情報の管理を担う。
 final class LocationManager: NSObject, ObservableObject {
 
+    /// CLLocationManager。
     let manager = CLLocationManager()
+    
+    /// 位置情報。
     @Published var location = CLLocation()
 
     override init() {
@@ -19,9 +23,12 @@ final class LocationManager: NSObject, ObservableObject {
         manager.delegate = self
         manager.requestAlwaysAuthorization()
         manager.desiredAccuracy = kCLLocationAccuracyBest
+        // TODO: 位置情報の取得開始処理は「START」タップ後に変更する
         manager.startUpdatingLocation()
     }
 }
+
+// MARK: - CLLocationManagerDelegate
 
 extension LocationManager: CLLocationManagerDelegate {
 

@@ -9,16 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
 
+    /// 位置情報の管理を担う。
     @ObservedObject var manager = LocationManager()
 
     /// 選択した計測精度。
     @State private var selection = 1
     /// ピッカーの表示/非表示フラグ。
     @State private var isShowingPicker = false
+    /// ピッカーの「Done」ボタンがタップされたかどうか。
+    @State private var isTappedPickerDoneButton = false
+    /// タイトル。
+    @State private var title: String = ""
 
     var body: some View {
-        NavigationStack {
-            ZStack {
+        ZStack {
+            NavigationStack {
                 MapView()
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarBackground(Color("main"), for: .navigationBar)
@@ -54,13 +59,29 @@ struct ContentView: View {
                             }
                         }
                     }
-
-                PickerView(selection: $selection, isShowing: $isShowingPicker)
-                    .animation(.linear, value: isShowingPicker)
-                    .offset(y: isShowingPicker ? 0 : UIScreen.main.bounds.height)
             }
+            .tint(.black)
+
+            PickerView(selection: $selection, isShowing: $isShowingPicker, isTappedDoneButton: $isTappedPickerDoneButton)
+                .animation(.linear, value: isShowingPicker)
+                .offset(y: isShowingPicker ? 0 : UIScreen.main.bounds.height)
         }
-        .tint(.black)
+        .alert("Confirm", isPresented: $isTappedPickerDoneButton, actions: {
+            TextField("Title", text: $title)
+            Button(action: {
+                isTappedPickerDoneButton = false
+            }, label: {
+                Text("Cancel")
+            })
+            Button(action: {
+                isTappedPickerDoneButton = false
+                // TODO: 計測開始処理
+            }, label: {
+                Text("OK")
+            })
+        }, message: {
+            Text("Please Enter a title")
+        })
     }
 
     init() {
@@ -77,6 +98,8 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Image
+
 extension Image {
 
     func setUpToolbarImageStyle(isEnabled: Bool, onTapGesture: @escaping () -> Void) -> some View {
@@ -88,6 +111,8 @@ extension Image {
     }
 }
 
+// MARK: - Text
+
 extension Text {
 
     func setUpToolbarTextStyle(isEnabled: Bool, onTapGesture: @escaping () -> Void) -> some View {
@@ -98,6 +123,8 @@ extension Text {
             }
     }
 }
+
+// MARK: - Preview
 
 #Preview {
     ContentView()
