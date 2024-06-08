@@ -22,9 +22,19 @@ final class LocationManager: NSObject, ObservableObject {
 
         manager.delegate = self
         manager.requestAlwaysAuthorization()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        // TODO: 位置情報の取得開始処理は「START」タップ後に変更する
+    }
+    
+    /// 位置情報の取得処理を開始する。
+    /// - Parameter accuracy: 位置情報の取得精度
+    func startUpdateingLocation(accuracy: LocationAccuracy) {
+        guard let cLLocationAccuracy = accuracy.cLLocationAccuracy else { return }
+        manager.desiredAccuracy = cLLocationAccuracy
         manager.startUpdatingLocation()
+    }
+    
+    /// 位置情報の取得処理を終了する。
+    func stopUpdatingLocation() {
+        manager.stopUpdatingLocation()
     }
 }
 

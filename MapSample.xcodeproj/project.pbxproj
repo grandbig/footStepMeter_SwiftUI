@@ -88,6 +88,14 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		2E589AC52C14862100032C18 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2E8CA4752BE65AA900532B5A /* LocationManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		2E8CA4392BE652AA00532B5A = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +119,7 @@
 		2E8CA4442BE652AA00532B5A /* MapSample */ = {
 			isa = PBXGroup;
 			children = (
+				2E589AC52C14862100032C18 /* Models */,
 				2E5386D92C021AC8004C02CB /* Enum */,
 				2EA9FDB62BE667970070273B /* Info.plist */,
 				2E8CA46F2BE6534F00532B5A /* Views */,
@@ -118,7 +127,6 @@
 				2E8CA4472BE652AA00532B5A /* ContentView.swift */,
 				2E8CA4492BE652AF00532B5A /* Assets.xcassets */,
 				2E8CA44B2BE652AF00532B5A /* Preview Content */,
-				2E8CA4752BE65AA900532B5A /* LocationManager.swift */,
 			);
 			path = MapSample;
 			sourceTree = "<group>";
