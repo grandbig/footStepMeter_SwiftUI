@@ -53,14 +53,25 @@ final class FootprintStoreTests: XCTestCase {
         XCTAssertEqual(footprint.createdAt, timestamp)
     }
 
+    func testCreateFootprintIsVisibleFromAnotherContext() throws {
+        try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
+
+        let otherStore = FootprintStore(modelContext: ModelContext(container))
+
+        XCTAssertEqual(try otherStore.footprints(title: "route").count, 1)
+    }
+
     func testCreateFootprintAllowsSameTitle() throws {
         try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
         try store.createFootprint(title: "route", location: makeLocation(timestamp: 2))
 
-        XCTAssertEqual(try store.footprints(title: "route").count, 2)
+        XCTAssertEqual(
+            try store.footprints(title: "route").map(\.createdAt),
+            [Date(timeIntervalSince1970: 1), Date(timeIntervalSince1970: 2)]
+        )
     }
 
-    func testExists() throws {
+    func testExistsReturnsTrueOnlyForSavedTitle() throws {
         try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
 
         XCTAssertTrue(try store.exists(title: "route"))
@@ -79,6 +90,21 @@ final class FootprintStoreTests: XCTestCase {
             footprints.map(\.createdAt),
             [Date(timeIntervalSince1970: 1), Date(timeIntervalSince1970: 2)]
         )
+    }
+
+    func testQueriesMatchTitleExactly() throws {
+        try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
+        try store.createFootprint(title: "route2", location: makeLocation(timestamp: 2))
+        try store.createFootprint(title: "Route", location: makeLocation(timestamp: 3))
+
+        XCTAssertEqual(try store.footprints(title: "route").count, 1)
+        XCTAssertFalse(try store.exists(title: "rout"))
+
+        try store.delete(title: "route")
+
+        XCTAssertFalse(try store.exists(title: "route"))
+        XCTAssertTrue(try store.exists(title: "route2"))
+        XCTAssertTrue(try store.exists(title: "Route"))
     }
 
     func testRouteSummariesReturnsCountPerTitleInRecentOrder() throws {
@@ -109,6 +135,14 @@ final class FootprintStoreTests: XCTestCase {
         XCTAssertFalse(try store.exists(title: "route"))
         XCTAssertTrue(try store.footprints(title: "route").isEmpty)
         XCTAssertEqual(try store.footprints(title: "other").count, 1)
+    }
+
+    func testDeleteWithUnknownTitleKeepsExistingFootprints() throws {
+        try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
+
+        XCTAssertNoThrow(try store.delete(title: "unknown"))
+
+        XCTAssertEqual(try store.footprints(title: "route").count, 1)
     }
 
     private func makeLocation(timestamp: TimeInterval) -> CLLocation {
