@@ -35,6 +35,7 @@ final class FootprintRecorderTests: XCTestCase {
             XCTAssertEqual(error as? FootprintRecorder.StartError, .emptyTitle)
         }
         XCTAssertFalse(recorder.isRecording)
+        XCTAssertTrue(store.checkedTitles.isEmpty)
     }
 
     func testStartWithDuplicateTitleThrows() {
@@ -42,6 +43,25 @@ final class FootprintRecorderTests: XCTestCase {
 
         XCTAssertThrowsError(try recorder.start(title: "route")) { error in
             XCTAssertEqual(error as? FootprintRecorder.StartError, .duplicateTitle)
+        }
+        XCTAssertFalse(recorder.isRecording)
+        XCTAssertNil(recorder.title)
+    }
+
+    func testStartWithPaddedDuplicateTitleThrows() {
+        store.existingTitles = ["route"]
+
+        XCTAssertThrowsError(try recorder.start(title: " route ")) { error in
+            XCTAssertEqual(error as? FootprintRecorder.StartError, .duplicateTitle)
+        }
+        XCTAssertEqual(store.checkedTitles, ["route"])
+    }
+
+    func testStartPropagatesStoreError() {
+        store.existsError = FootprintStoreStub.StubError()
+
+        XCTAssertThrowsError(try recorder.start(title: "route")) { error in
+            XCTAssertTrue(error is FootprintStoreStub.StubError)
         }
         XCTAssertFalse(recorder.isRecording)
         XCTAssertNil(recorder.title)
@@ -69,26 +89,44 @@ final class FootprintRecorderTests: XCTestCase {
         )
     }
 
-    func testIgnoresLocationsWhenNotRecording() throws {
+    func testIgnoresLocationsBeforeStart() throws {
         locations.send([makeLocation(timestamp: 1)])
 
-        try recorder.start(title: "route")
-        recorder.stop()
-        locations.send([makeLocation(timestamp: 2)])
-
-        XCTAssertFalse(recorder.isRecording)
         XCTAssertEqual(recorder.count, 0)
         XCTAssertTrue(store.created.isEmpty)
     }
 
-    func testCountExcludesFailedSaves() throws {
+    func testStopsSavingAfterStop() throws {
         try recorder.start(title: "route")
-        store.createError = FootprintStoreStub.StubError()
-
         locations.send([makeLocation(timestamp: 1)])
+        recorder.stop()
+        locations.send([makeLocation(timestamp: 2)])
+
+        XCTAssertFalse(recorder.isRecording)
+        XCTAssertEqual(recorder.count, 1)
+        XCTAssertEqual(store.created.map(\.location.timestamp), [Date(timeIntervalSince1970: 1)])
+    }
+
+    func testIgnoresEmptyLocations() throws {
+        try recorder.start(title: "route")
+
+        locations.send([])
 
         XCTAssertEqual(recorder.count, 0)
+        XCTAssertTrue(store.created.isEmpty)
+    }
+
+    func testContinuesRecordingAfterSaveFailure() throws {
+        try recorder.start(title: "route")
+
+        store.createError = FootprintStoreStub.StubError()
+        locations.send([makeLocation(timestamp: 1)])
+        store.createError = nil
+        locations.send([makeLocation(timestamp: 2)])
+
         XCTAssertTrue(recorder.isRecording)
+        XCTAssertEqual(recorder.count, 1)
+        XCTAssertEqual(store.created.map(\.location.timestamp), [Date(timeIntervalSince1970: 2)])
     }
 
     func testStartResetsCountForNewTitle() throws {
@@ -122,6 +160,7 @@ private final class FootprintStoreStub: FootprintStoreProtocol {
     struct StubError: Error {}
 
     var existingTitles: Set<String> = []
+    var existsError: Error?
     var createError: Error?
     private(set) var checkedTitles: [String] = []
     private(set) var created: [(title: String, location: CLLocation)] = []
@@ -143,6 +182,9 @@ private final class FootprintStoreStub: FootprintStoreProtocol {
 
     func exists(title: String) throws -> Bool {
         checkedTitles.append(title)
+        if let existsError {
+            throw existsError
+        }
         return existingTitles.contains(title)
     }
 

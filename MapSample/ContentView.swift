@@ -149,9 +149,12 @@ struct ContentView: View {
     }
 
     /// 足跡の記録と位置情報の計測を開始する。
-    /// - Note: タイトルが空、または同名のタイトルが既に存在する場合は、エラーアラートを表示して開始しない
+    /// - Note: 精度が未選択、タイトルが空、または同名のタイトルが既に存在する場合は、エラーアラートを表示して開始しない
     private func startMeasuring() {
-        guard let accuracy = LocationAccuracy(rawValue: selection), accuracy != .none else { return }
+        guard let accuracy = LocationAccuracy(rawValue: selection), accuracy != .none else {
+            showErrorAlert(message: "Please select the accuracy.")
+            return
+        }
 
         do {
             try recorder.start(title: title)

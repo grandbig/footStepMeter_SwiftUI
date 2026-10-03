@@ -10,6 +10,7 @@ import CoreLocation
 import Foundation
 
 /// 計測中に取得した位置情報を足跡として記録する。
+/// - Note: メインスレッドから利用する。位置情報の通知もメインスレッドで受け取る前提（`LocationManager` をメインスレッドで生成し、保存先に `ModelContainer.mainContext` を使うため）
 final class FootprintRecorder: ObservableObject {
 
     /// 記録を開始できない理由。

@@ -6,8 +6,8 @@
 //
 
 import Combine
-import Foundation
 import CoreLocation
+import Foundation
 
 /// 位置情報の管理を担う。
 final class LocationManager: NSObject, ObservableObject {
@@ -33,6 +33,9 @@ final class LocationManager: NSObject, ObservableObject {
         // バックグラウンドでも位置情報の取得を続け、取得中であることを表示する
         manager.allowsBackgroundLocationUpdates = true
         manager.showsBackgroundLocationIndicator = true
+        // 立ち止まっても計測を止めないよう、自動の一時停止を無効にする
+        manager.pausesLocationUpdatesAutomatically = false
+        manager.activityType = .fitness
     }
     
     /// 位置情報の取得処理を開始する。
