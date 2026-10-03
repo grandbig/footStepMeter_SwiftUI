@@ -5,6 +5,7 @@
 //  Created by Takahiro Kato on 2024/05/04.
 //
 
+import Combine
 import Foundation
 import CoreLocation
 
@@ -17,11 +18,21 @@ final class LocationManager: NSObject, ObservableObject {
     /// 位置情報。
     @Published var location = CLLocation()
 
+    /// 取得した位置情報の通知。
+    var locationsPublisher: AnyPublisher<[CLLocation], Never> {
+        locationsSubject.eraseToAnyPublisher()
+    }
+
+    private let locationsSubject = PassthroughSubject<[CLLocation], Never>()
+
     override init() {
         super.init()
 
         manager.delegate = self
         manager.requestAlwaysAuthorization()
+        // バックグラウンドでも位置情報の取得を続け、取得中であることを表示する
+        manager.allowsBackgroundLocationUpdates = true
+        manager.showsBackgroundLocationIndicator = true
     }
     
     /// 位置情報の取得処理を開始する。
@@ -46,6 +57,7 @@ extension LocationManager: CLLocationManagerDelegate {
         if let lastLocation = locations.last {
             location = lastLocation
         }
+        locationsSubject.send(locations)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
