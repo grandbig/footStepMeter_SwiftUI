@@ -28,21 +28,28 @@ final class FootprintStore: FootprintStoreProtocol {
             createdAt: location.timestamp
         )
         modelContext.insert(footprint)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            // 保存に失敗した足跡がコンテキストに残らないよう取り消す。
+            modelContext.delete(footprint)
+            throw error
+        }
     }
 
     func footprints(title: String) throws -> [Footprint] {
         let descriptor = FetchDescriptor<Footprint>(
-            predicate: #Predicate { $0.title == title },
+            predicate: predicate(title: title),
             sortBy: [SortDescriptor(\.createdAt)]
         )
         return try modelContext.fetch(descriptor)
     }
 
     func routeSummaries() throws -> [FootprintRouteSummary] {
-        let descriptor = FetchDescriptor<Footprint>(
+        var descriptor = FetchDescriptor<Footprint>(
             sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
         )
+        descriptor.propertiesToFetch = [\.title]
         let footprints = try modelContext.fetch(descriptor)
 
         // 直近に記録したタイトルが先頭になるよう、初出順を保ったまま件数を集計する。
@@ -59,16 +66,26 @@ final class FootprintStore: FootprintStoreProtocol {
 
     func exists(title: String) throws -> Bool {
         let descriptor = FetchDescriptor<Footprint>(
-            predicate: #Predicate { $0.title == title }
+            predicate: predicate(title: title)
         )
         return try modelContext.fetchCount(descriptor) > 0
     }
 
     func delete(title: String) throws {
-        try modelContext.delete(
-            model: Footprint.self,
-            where: #Predicate { $0.title == title }
-        )
-        try modelContext.save()
+        do {
+            try modelContext.delete(
+                model: Footprint.self,
+                where: predicate(title: title)
+            )
+            try modelContext.save()
+        } catch {
+            // 保存に失敗した削除がコンテキストに残らないよう取り消す。
+            modelContext.rollback()
+            throw error
+        }
+    }
+
+    private func predicate(title: String) -> Predicate<Footprint> {
+        #Predicate { $0.title == title }
     }
 }
