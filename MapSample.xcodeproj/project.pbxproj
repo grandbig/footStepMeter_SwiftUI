@@ -18,6 +18,7 @@
 		2E8CA44A2BE652AF00532B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8CA4492BE652AF00532B5A /* Assets.xcassets */; };
 		2E8CA44D2BE652AF00532B5A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8CA44C2BE652AF00532B5A /* Preview Assets.xcassets */; };
 		2E8CA4572BE652B100532B5A /* MapSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4562BE652B100532B5A /* MapSampleTests.swift */; };
+		2E7A91262DF8179000B5A001 /* FootprintStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */; };
 		2E8CA4612BE652B100532B5A /* MapSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4602BE652B100532B5A /* MapSampleUITests.swift */; };
 		2E8CA4632BE652B100532B5A /* MapSampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4622BE652B100532B5A /* MapSampleUITestsLaunchTests.swift */; };
 		2E8CA4712BE6536200532B5A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4702BE6536200532B5A /* MapView.swift */; };
@@ -55,6 +56,7 @@
 		2E8CA44C2BE652AF00532B5A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E8CA4522BE652B100532B5A /* MapSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8CA4562BE652B100532B5A /* MapSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleTests.swift; sourceTree = "<group>"; };
+		2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintStoreTests.swift; sourceTree = "<group>"; };
 		2E8CA45C2BE652B100532B5A /* MapSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8CA4602BE652B100532B5A /* MapSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleUITests.swift; sourceTree = "<group>"; };
 		2E8CA4622BE652B100532B5A /* MapSampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				2E8CA4562BE652B100532B5A /* MapSampleTests.swift */,
+				2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */,
 			);
 			path = MapSampleTests;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8CA4572BE652B100532B5A /* MapSampleTests.swift in Sources */,
+				2E7A91262DF8179000B5A001 /* FootprintStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
