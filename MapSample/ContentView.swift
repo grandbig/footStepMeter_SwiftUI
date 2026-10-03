@@ -5,12 +5,15 @@
 //  Created by Takahiro Kato on 2024/05/04.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
 
     /// 位置情報の管理を担う。
-    @ObservedObject var manager = LocationManager()
+    let manager: LocationManager
+    /// 計測中の位置情報を足跡として記録する。
+    @ObservedObject var recorder: FootprintRecorder
 
     /// 選択した計測精度。
     @State private var selection = 1
@@ -26,11 +29,16 @@ struct ContentView: View {
     @State private var isTappedStopItemOnToolbar = false
     /// ツールバーの「START」項目が有効状態かどうか。
     @State private var isStartItemOnToolbarEnabled = true
+    /// エラーアラートの表示フラグ。
+    @State private var isShowingErrorAlert = false
+    /// エラーアラートに表示するメッセージ。
+    @State private var errorMessage = ""
 
     var body: some View {
         ZStack {
             NavigationStack {
                 MapView()
+                    .navigationTitle(recorder.count > 0 ? String(recorder.count) : "")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarBackground(Color("main"), for: .navigationBar)
                     .toolbar(.visible, for: .navigationBar)
@@ -82,9 +90,16 @@ struct ContentView: View {
         }, message: {
             Text("Do you want to stop measuring location information?")
         })
+        .alert("Error", isPresented: $isShowingErrorAlert, actions: {
+            Button("OK") {}
+        }, message: {
+            Text(errorMessage)
+        })
     }
 
-    init() {
+    init(manager: LocationManager, recorder: FootprintRecorder) {
+        self.manager = manager
+        self.recorder = recorder
         setUpToolbarBackgroundColor()
     }
     
@@ -108,10 +123,7 @@ struct ContentView: View {
             })
             Button(action: {
                 isTappedPickerDoneButton = false
-                isStartItemOnToolbarEnabled = false
-                // 位置情報の計測を開始する
-                guard let accuracy = LocationAccuracy(rawValue: selection) else { return }
-                manager.startUpdateingLocation(accuracy: accuracy)
+                startMeasuring()
             }, label: {
                 Text("OK")
             })
@@ -129,10 +141,40 @@ struct ContentView: View {
                 isStartItemOnToolbarEnabled = true
                 // 位置情報の計測を終了する
                 manager.stopUpdatingLocation()
+                recorder.stop()
             }, label: {
                 Text("OK")
             })
         }
+    }
+
+    /// 足跡の記録と位置情報の計測を開始する。
+    /// - Note: 精度が未選択、タイトルが空、または同名のタイトルが既に存在する場合は、エラーアラートを表示して開始しない
+    private func startMeasuring() {
+        guard let accuracy = LocationAccuracy(rawValue: selection), accuracy != .none else {
+            showErrorAlert(message: "Please select the accuracy.")
+            return
+        }
+
+        do {
+            try recorder.start(title: title)
+        } catch let error as FootprintRecorder.StartError {
+            showErrorAlert(message: error.message)
+            return
+        } catch {
+            showErrorAlert(message: "An unexpected error occurred.")
+            return
+        }
+
+        isStartItemOnToolbarEnabled = false
+        manager.startUpdateingLocation(accuracy: accuracy)
+    }
+
+    /// エラーアラートを表示する。
+    /// - Parameter message: 表示するメッセージ
+    private func showErrorAlert(message: String) {
+        errorMessage = message
+        isShowingErrorAlert = true
     }
 }
 
@@ -175,16 +217,19 @@ extension Text {
 // MARK: - Preview
 
 #Preview {
-    ContentView()
+    let container = try! ModelContainer(for: Footprint.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let manager = LocationManager()
+    let recorder = FootprintRecorder(
+        store: FootprintStore(modelContext: container.mainContext),
+        locations: manager.locationsPublisher
+    )
+    return ContentView(manager: manager, recorder: recorder)
+        .modelContainer(container)
 }
 
 // MARK: - TODO
 
-// 1. 取得した位置情報を保存するためにRealmを導入する(Swift Package Managerで導入する。)
-// 2. ModelとしてRealmManagerを実装する
-// 3. locationがPublishされたら、RealmManagerを用いて値を保存する
-// 4. locationがPublishされた回数に応じて、ナビゲーションバーのタイトルをカウントアップする
-// 5. Toolbarの「FOOT VIEW」をタップしたら、Realmから保存した位置情報を取得してマップにマッピングする
-// 6. すでにマッピングされている状態でToolbarの「FOOT VIEW」をタップしたら、マップからマッピング情報を削除する
-// 7. Toolbarの「SETTINGS」をタップしたら、設定画面を表示する
-// 8. 設定画面の実装（足跡履歴の表示、アプリの利用方法、ライセンスの表示）
+// 1. Toolbarの「FOOT VIEW」をタップしたら、保存した位置情報を取得してマップにマッピングする
+// 2. すでにマッピングされている状態でToolbarの「FOOT VIEW」をタップしたら、マップからマッピング情報を削除する
+// 3. Toolbarの「SETTINGS」をタップしたら、設定画面を表示する
+// 4. 設定画面の実装（足跡履歴の表示、アプリの利用方法、ライセンスの表示）

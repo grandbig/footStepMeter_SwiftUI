@@ -21,10 +21,10 @@ struct PickerView: View {
             Spacer()
             // ピッカーの上部に表示するボタングループ
             HStack {
-                // Cancelタップで非表示化 & 選択精度をリセット
+                // Cancelタップで非表示化 & 選択精度を既定値に戻す
                 Button {
                     isShowing = false
-                    selection = 0
+                    selection = LocationAccuracy.bestForNavigation.rawValue
                 } label: {
                     Text("Cancel")
                         .tint(.blue)
@@ -48,6 +48,7 @@ struct PickerView: View {
             Picker("計測する精度を選択", selection: $selection) {
                 ForEach(LocationAccuracy.allCases.filter { $0 != .none }, id: \.self) {
                     Text($0.description)
+                        .tag($0.rawValue)
                 }
             }
             // TODO: 文字色が変更できない
