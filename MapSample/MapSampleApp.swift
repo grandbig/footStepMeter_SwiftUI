@@ -17,6 +17,8 @@ struct MapSampleApp: App {
     private let locationManager = LocationManager()
     /// 計測中の位置情報を足跡として記録する。
     private let recorder: FootprintRecorder
+    /// FOOT VIEW で地図に表示する足跡を管理する。
+    private let viewer: FootprintViewer
 
     init() {
         do {
@@ -24,15 +26,14 @@ struct MapSampleApp: App {
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
-        recorder = FootprintRecorder(
-            store: FootprintStore(modelContext: container.mainContext),
-            locations: locationManager.locationsPublisher
-        )
+        let store = FootprintStore(modelContext: container.mainContext)
+        recorder = FootprintRecorder(store: store, locations: locationManager.locationsPublisher)
+        viewer = FootprintViewer(store: store)
     }
 
     var body: some Scene {
         WindowGroup {
-            ContentView(manager: locationManager, recorder: recorder)
+            ContentView(manager: locationManager, recorder: recorder, viewer: viewer)
         }
         .modelContainer(container)
     }

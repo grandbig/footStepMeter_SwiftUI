@@ -14,6 +14,8 @@ struct ContentView: View {
     let manager: LocationManager
     /// 計測中の位置情報を足跡として記録する。
     @ObservedObject var recorder: FootprintRecorder
+    /// FOOT VIEW で地図に表示する足跡を管理する。
+    @ObservedObject var viewer: FootprintViewer
 
     /// 選択した計測精度。
     @State private var selection = 1
@@ -37,7 +39,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                MapView()
+                MapView(footprints: viewer.footprints)
                     .navigationTitle(recorder.count > 0 ? String(recorder.count) : "")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarBackground(Color("main"), for: .navigationBar)
@@ -60,9 +62,9 @@ struct ContentView: View {
                             Spacer()
                             VStack {
                                 Image("view")
-                                    .setUpToolbarImageStyle(onTapGesture: {})
+                                    .setUpToolbarImageStyle(onTapGesture: { toggleFootprints() })
                                 Text("FOOT VIEW")
-                                    .setUpToolbarTextStyle(onTapGesture: {})
+                                    .setUpToolbarTextStyle(onTapGesture: { toggleFootprints() })
                             }
                             Spacer()
                             VStack {
@@ -97,9 +99,10 @@ struct ContentView: View {
         })
     }
 
-    init(manager: LocationManager, recorder: FootprintRecorder) {
+    init(manager: LocationManager, recorder: FootprintRecorder, viewer: FootprintViewer) {
         self.manager = manager
         self.recorder = recorder
+        self.viewer = viewer
         setUpToolbarBackgroundColor()
     }
     
@@ -166,8 +169,22 @@ struct ContentView: View {
             return
         }
 
+        // 新しい計測を始めるので、表示中の足跡は消す
+        viewer.hide()
         isStartItemOnToolbarEnabled = false
         manager.startUpdateingLocation(accuracy: accuracy)
+    }
+
+    /// 直近に計測したタイトルの足跡の表示/非表示を切り替える。
+    /// - Note: 計測中、または表示する足跡がない場合は、エラーアラートを表示する
+    private func toggleFootprints() {
+        do {
+            try viewer.toggle(title: recorder.title, isRecording: recorder.isRecording)
+        } catch let error as FootprintViewer.ShowError {
+            showErrorAlert(message: error.message)
+        } catch {
+            showErrorAlert(message: "An unexpected error occurred.")
+        }
     }
 
     /// エラーアラートを表示する。
@@ -218,18 +235,14 @@ extension Text {
 
 #Preview {
     let container = try! ModelContainer(for: Footprint.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let store = FootprintStore(modelContext: container.mainContext)
     let manager = LocationManager()
-    let recorder = FootprintRecorder(
-        store: FootprintStore(modelContext: container.mainContext),
-        locations: manager.locationsPublisher
-    )
-    return ContentView(manager: manager, recorder: recorder)
+    let recorder = FootprintRecorder(store: store, locations: manager.locationsPublisher)
+    return ContentView(manager: manager, recorder: recorder, viewer: FootprintViewer(store: store))
         .modelContainer(container)
 }
 
 // MARK: - TODO
 
-// 1. Toolbarの「FOOT VIEW」をタップしたら、保存した位置情報を取得してマップにマッピングする
-// 2. すでにマッピングされている状態でToolbarの「FOOT VIEW」をタップしたら、マップからマッピング情報を削除する
-// 3. Toolbarの「SETTINGS」をタップしたら、設定画面を表示する
-// 4. 設定画面の実装（足跡履歴の表示、アプリの利用方法、ライセンスの表示）
+// 1. Toolbarの「SETTINGS」をタップしたら、設定画面を表示する
+// 2. 設定画面の実装（足跡履歴の表示、アプリの利用方法、ライセンスの表示）
