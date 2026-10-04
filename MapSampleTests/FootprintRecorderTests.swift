@@ -180,6 +180,10 @@ private final class FootprintStoreStub: FootprintStoreProtocol {
         []
     }
 
+    func latestTitle() throws -> String? {
+        nil
+    }
+
     func exists(title: String) throws -> Bool {
         checkedTitles.append(title)
         if let existsError {

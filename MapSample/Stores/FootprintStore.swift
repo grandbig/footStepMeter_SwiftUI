@@ -64,6 +64,14 @@ final class FootprintStore: FootprintStoreProtocol {
         return titles.map { FootprintRouteSummary(title: $0, count: counts[$0, default: 0]) }
     }
 
+    func latestTitle() throws -> String? {
+        var descriptor = FetchDescriptor<Footprint>(
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+        descriptor.fetchLimit = 1
+        return try modelContext.fetch(descriptor).first?.title
+    }
+
     func exists(title: String) throws -> Bool {
         let descriptor = FetchDescriptor<Footprint>(
             predicate: predicate(title: title)
