@@ -14,6 +14,7 @@
 		2E7A91212DF8179000B5A001 /* FootprintStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91202DF8179000B5A001 /* FootprintStoreProtocol.swift */; };
 		2E7A91242DF8179000B5A001 /* FootprintStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91232DF8179000B5A001 /* FootprintStore.swift */; };
 		2E7A91282DF8179000B5A001 /* FootprintRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91272DF8179000B5A001 /* FootprintRecorder.swift */; };
+		2E7A912C2DF8179000B5A001 /* FootprintViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A912B2DF8179000B5A001 /* FootprintViewer.swift */; };
 		2E8CA4462BE652AA00532B5A /* MapSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4452BE652AA00532B5A /* MapSampleApp.swift */; };
 		2E8CA4482BE652AA00532B5A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4472BE652AA00532B5A /* ContentView.swift */; };
 		2E8CA44A2BE652AF00532B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8CA4492BE652AF00532B5A /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 		2E8CA4572BE652B100532B5A /* MapSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4562BE652B100532B5A /* MapSampleTests.swift */; };
 		2E7A91262DF8179000B5A001 /* FootprintStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */; };
 		2E7A912A2DF8179000B5A001 /* FootprintRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91292DF8179000B5A001 /* FootprintRecorderTests.swift */; };
+		2E7A912E2DF8179000B5A001 /* FootprintViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A912D2DF8179000B5A001 /* FootprintViewerTests.swift */; };
 		2E8CA4612BE652B100532B5A /* MapSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4602BE652B100532B5A /* MapSampleUITests.swift */; };
 		2E8CA4632BE652B100532B5A /* MapSampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4622BE652B100532B5A /* MapSampleUITestsLaunchTests.swift */; };
 		2E8CA4712BE6536200532B5A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4702BE6536200532B5A /* MapView.swift */; };
@@ -52,6 +54,7 @@
 		2E7A91202DF8179000B5A001 /* FootprintStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintStoreProtocol.swift; sourceTree = "<group>"; };
 		2E7A91232DF8179000B5A001 /* FootprintStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintStore.swift; sourceTree = "<group>"; };
 		2E7A91272DF8179000B5A001 /* FootprintRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintRecorder.swift; sourceTree = "<group>"; };
+		2E7A912B2DF8179000B5A001 /* FootprintViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintViewer.swift; sourceTree = "<group>"; };
 		2E8CA4422BE652AA00532B5A /* MapSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8CA4452BE652AA00532B5A /* MapSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleApp.swift; sourceTree = "<group>"; };
 		2E8CA4472BE652AA00532B5A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		2E8CA4562BE652B100532B5A /* MapSampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleTests.swift; sourceTree = "<group>"; };
 		2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintStoreTests.swift; sourceTree = "<group>"; };
 		2E7A91292DF8179000B5A001 /* FootprintRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintRecorderTests.swift; sourceTree = "<group>"; };
+		2E7A912D2DF8179000B5A001 /* FootprintViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintViewerTests.swift; sourceTree = "<group>"; };
 		2E8CA45C2BE652B100532B5A /* MapSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8CA4602BE652B100532B5A /* MapSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleUITests.swift; sourceTree = "<group>"; };
 		2E8CA4622BE652B100532B5A /* MapSampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -109,6 +113,7 @@
 				2E6D3C3E2DE8532E0068F701 /* Footprint.swift */,
 				2E0F38A02DE8676800F09F22 /* FootprintRouteSummary.swift */,
 				2E7A91272DF8179000B5A001 /* FootprintRecorder.swift */,
+				2E7A912B2DF8179000B5A001 /* FootprintViewer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				2E8CA4562BE652B100532B5A /* MapSampleTests.swift */,
 				2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */,
 				2E7A91292DF8179000B5A001 /* FootprintRecorderTests.swift */,
+				2E7A912D2DF8179000B5A001 /* FootprintViewerTests.swift */,
 			);
 			path = MapSampleTests;
 			sourceTree = "<group>";
@@ -334,6 +340,7 @@
 				2E7A91212DF8179000B5A001 /* FootprintStoreProtocol.swift in Sources */,
 				2E7A91242DF8179000B5A001 /* FootprintStore.swift in Sources */,
 				2E7A91282DF8179000B5A001 /* FootprintRecorder.swift in Sources */,
+				2E7A912C2DF8179000B5A001 /* FootprintViewer.swift in Sources */,
 				2E5386DB2C021AD5004C02CB /* LocationAccuracy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,6 +352,7 @@
 				2E8CA4572BE652B100532B5A /* MapSampleTests.swift in Sources */,
 				2E7A91262DF8179000B5A001 /* FootprintStoreTests.swift in Sources */,
 				2E7A912A2DF8179000B5A001 /* FootprintRecorderTests.swift in Sources */,
+				2E7A912E2DF8179000B5A001 /* FootprintViewerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,10 @@ protocol FootprintStoreProtocol {
     /// - Returns: タイトル別の足跡サマリ一覧
     func routeSummaries() throws -> [FootprintRouteSummary]
 
+    /// 直近に記録した足跡の計測タイトルを取得する。
+    /// - Returns: 計測タイトル（足跡がない場合はnil）
+    func latestTitle() throws -> String?
+
     /// 指定した計測タイトルの足跡が存在するかどうかを返す。
     /// - Parameter title: 計測タイトル
     /// - Returns: 足跡が存在する場合はtrue

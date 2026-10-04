@@ -125,6 +125,18 @@ final class FootprintStoreTests: XCTestCase {
         XCTAssertEqual(try store.routeSummaries(), [])
     }
 
+    func testLatestTitleReturnsMostRecentlyRecordedTitle() throws {
+        try store.createFootprint(title: "new", location: makeLocation(timestamp: 3))
+        try store.createFootprint(title: "old", location: makeLocation(timestamp: 1))
+        try store.createFootprint(title: "old", location: makeLocation(timestamp: 2))
+
+        XCTAssertEqual(try store.latestTitle(), "new")
+    }
+
+    func testLatestTitleIsNilWithoutFootprints() throws {
+        XCTAssertNil(try store.latestTitle())
+    }
+
     func testDeleteRemovesOnlyMatchingTitle() throws {
         try store.createFootprint(title: "route", location: makeLocation(timestamp: 1))
         try store.createFootprint(title: "route", location: makeLocation(timestamp: 2))
