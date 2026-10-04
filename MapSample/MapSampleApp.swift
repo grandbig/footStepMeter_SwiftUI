@@ -33,7 +33,7 @@ struct MapSampleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(manager: locationManager, recorder: recorder, viewer: viewer)
+            MainTabView(manager: locationManager, recorder: recorder, viewer: viewer)
         }
         .modelContainer(container)
     }

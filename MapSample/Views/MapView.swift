@@ -33,6 +33,11 @@ struct MapView: View {
                 .annotationTitles(.hidden)
             }
         }
+        .mapControls {
+            // 地図の中心を現在地に戻すボタンと、回転時に北を示すコンパス
+            MapUserLocationButton()
+            MapCompass()
+        }
         .onMapCameraChange(frequency: .onEnd) { context in
             mapHeading = context.camera.heading
         }
