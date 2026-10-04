@@ -25,12 +25,8 @@ struct ContentView: View {
     @State private var isTappedPickerDoneButton = false
     /// タイトル。
     @State private var title: String = ""
-    /// ツールバーの項目がタップされたかどうか。
-    @State private var isTappedItemOnToolbar = false
-    /// ツールバーの「STOP」項目がタップされたかどうか。
-    @State private var isTappedStopItemOnToolbar = false
-    /// ツールバーの「START」項目が有効状態かどうか。
-    @State private var isStartItemOnToolbarEnabled = true
+    /// 計測中に計測ボタン（停止）がタップされたかどうか。
+    @State private var isTappedStopButton = false
     /// エラーアラートの表示フラグ。
     @State private var isShowingErrorAlert = false
     /// エラーアラートに表示するメッセージ。
@@ -40,41 +36,13 @@ struct ContentView: View {
         ZStack {
             NavigationStack {
                 MapView(footprints: viewer.footprints)
+                    .overlay(alignment: .bottomTrailing) {
+                        floatingActionButtons
+                    }
                     .navigationTitle(recorder.count > 0 ? String(recorder.count) : "")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarBackground(Color("main"), for: .navigationBar)
                     .toolbar(.visible, for: .navigationBar)
-                    .toolbar {
-                        ToolbarItemGroup(placement: .bottomBar) {
-                            VStack {
-                                Image("play")
-                                    .setUpToolbarImageStyle(isEnabled: .constant(isStartItemOnToolbarEnabled), onTapGesture: { isShowingPicker.toggle() })
-                                Text("START")
-                                    .setUpToolbarTextStyle(isEnabled: .constant(isStartItemOnToolbarEnabled), onTapGesture: { isShowingPicker.toggle() })
-                            }.disabled(!isStartItemOnToolbarEnabled)
-                            Spacer()
-                            VStack {
-                                Image("stop")
-                                    .setUpToolbarImageStyle(isEnabled: .constant(!isStartItemOnToolbarEnabled), onTapGesture: { isTappedStopItemOnToolbar.toggle() })
-                                Text("STOP")
-                                    .setUpToolbarTextStyle(isEnabled: .constant(!isStartItemOnToolbarEnabled), onTapGesture: { isTappedStopItemOnToolbar.toggle() })
-                            }.disabled(isStartItemOnToolbarEnabled)
-                            Spacer()
-                            VStack {
-                                Image("view")
-                                    .setUpToolbarImageStyle(onTapGesture: { toggleFootprints() })
-                                Text("FOOT VIEW")
-                                    .setUpToolbarTextStyle(onTapGesture: { toggleFootprints() })
-                            }
-                            Spacer()
-                            VStack {
-                                Image("settings")
-                                    .setUpToolbarImageStyle(onTapGesture: {})
-                                Text("SETTINGS")
-                                    .setUpToolbarTextStyle(onTapGesture: {})
-                            }
-                        }
-                    }
             }
             .tint(.black)
 
@@ -87,7 +55,7 @@ struct ContentView: View {
         }, message: {
             Text("Please Enter a title")
         })
-        .alert("Confirm", isPresented: $isTappedStopItemOnToolbar, actions: {
+        .alert("Confirm", isPresented: $isTappedStopButton, actions: {
             confirmAlertBeforeStopUpdatingLocations
         }, message: {
             Text("Do you want to stop measuring location information?")
@@ -99,22 +67,28 @@ struct ContentView: View {
         })
     }
 
-    init(manager: LocationManager, recorder: FootprintRecorder, viewer: FootprintViewer) {
-        self.manager = manager
-        self.recorder = recorder
-        self.viewer = viewer
-        setUpToolbarBackgroundColor()
+    /// 地図の右下に縦に並べる操作ボタン。
+    /// - Note: 下が計測の開始/停止、上が FOOT VIEW の表示/非表示
+    private var floatingActionButtons: some View {
+        VStack(spacing: 16) {
+            FloatingActionButton(
+                imageName: "view",
+                accessibilityLabel: "FOOT VIEW",
+                foregroundColor: viewer.isShowing ? .white : Color("main"),
+                backgroundColor: viewer.isShowing ? Color("main") : .white,
+                diameter: 48,
+                action: toggleFootprints
+            )
+            FloatingActionButton(
+                imageName: recorder.isRecording ? "stop" : "play",
+                accessibilityLabel: recorder.isRecording ? "STOP" : "START",
+                backgroundColor: recorder.isRecording ? .red : Color("main"),
+                action: tapMeasureButton
+            )
+        }
+        .padding()
     }
-    
-    /// UIToolbarの背景色を設定する。
-    /// - Note: toolbarBackground では「.bottomBar」を指定しても背景色を変更できないため、この処理を実行する
-    private func setUpToolbarBackgroundColor() {
-        let appearance = UIToolbarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color("main"))
-        UIToolbar.appearance().scrollEdgeAppearance = appearance
-    }
-    
+
     /// 位置情報の取得開始前のConfirmアラート。
     private var confirmAlertBeforeStartUpdatingLocations: some View {
         Group {
@@ -141,13 +115,22 @@ struct ContentView: View {
                 Text("Cancel")
             })
             Button(action: {
-                isStartItemOnToolbarEnabled = true
                 // 位置情報の計測を終了する
                 manager.stopUpdatingLocation()
                 recorder.stop()
             }, label: {
                 Text("OK")
             })
+        }
+    }
+
+    /// 計測ボタンがタップされたときの処理。
+    /// - Note: 計測中でなければ精度のピッカーを、計測中であれば停止の確認アラートを表示する
+    private func tapMeasureButton() {
+        if recorder.isRecording {
+            isTappedStopButton = true
+        } else {
+            isShowingPicker = true
         }
     }
 
@@ -171,7 +154,6 @@ struct ContentView: View {
 
         // 新しい計測を始めるので、表示中の足跡は消す
         viewer.hide()
-        isStartItemOnToolbarEnabled = false
         manager.startUpdateingLocation(accuracy: accuracy)
     }
 
@@ -195,42 +177,6 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Image
-
-extension Image {
-    
-    /// Toolbarの項目として設定された画像にスタイルとジェスチャを設定する
-    /// - Parameters:
-    ///   - isEnabled: 有効状態かどうか
-    ///   - onTapGesture: タップ時のジェスチャ
-    /// - Returns: スタイルとジェスチャが設定された画像
-    func setUpToolbarImageStyle(isEnabled: Binding<Bool>? = nil, onTapGesture: @escaping () -> Void) -> some View {
-        self.renderingMode(.template)
-            .foregroundStyle(isEnabled?.wrappedValue ?? true ? .white : .gray)
-            .onTapGesture {
-                onTapGesture()
-            }
-    }
-}
-
-// MARK: - Text
-
-extension Text {
-    
-    /// Toolbarの項目として設定されたテキストにスタイルとジェスチャを設定する
-    /// - Parameters:
-    ///   - isEnabled: 有効状態かどうか
-    ///   - onTapGesture: タップ時のジェスチャ
-    /// - Returns: スタイルとジェスチャが設定されたテキスト
-    func setUpToolbarTextStyle(isEnabled: Binding<Bool>? = nil, onTapGesture: @escaping () -> Void) -> some View {
-        self.font(.footnote)
-            .foregroundStyle(isEnabled?.wrappedValue ?? true ? .white : .gray)
-            .onTapGesture {
-                onTapGesture()
-            }
-    }
-}
-
 // MARK: - Preview
 
 #Preview {
@@ -241,8 +187,3 @@ extension Text {
     return ContentView(manager: manager, recorder: recorder, viewer: FootprintViewer(store: store))
         .modelContainer(container)
 }
-
-// MARK: - TODO
-
-// 1. Toolbarの「SETTINGS」をタップしたら、設定画面を表示する
-// 2. 設定画面の実装（足跡履歴の表示、アプリの利用方法、ライセンスの表示）
