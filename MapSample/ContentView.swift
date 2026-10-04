@@ -40,9 +40,7 @@ struct ContentView: View {
                         floatingActionButtons
                     }
                     .navigationTitle(recorder.count > 0 ? String(recorder.count) : "")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbarBackground(Color("main"), for: .navigationBar)
-                    .toolbar(.visible, for: .navigationBar)
+                    .mainNavigationBarStyle()
             }
             .tint(.black)
 
@@ -77,6 +75,7 @@ struct ContentView: View {
                 foregroundColor: viewer.isShowing ? .white : Color("main"),
                 backgroundColor: viewer.isShowing ? Color("main") : .white,
                 diameter: 48,
+                isSelected: viewer.isShowing,
                 action: toggleFootprints
             )
             FloatingActionButton(

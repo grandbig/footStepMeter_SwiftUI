@@ -20,6 +20,8 @@ struct FloatingActionButton: View {
     var backgroundColor: Color = Color("main")
     /// ボタンの直径。
     var diameter: CGFloat = 64
+    /// オン/オフを切り替えるボタンで、オンの状態かどうか。
+    var isSelected = false
     /// タップ時の処理。
     let action: () -> Void
 
@@ -36,6 +38,8 @@ struct FloatingActionButton: View {
                 .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
         }
         .accessibilityLabel(accessibilityLabel)
+        // オンの状態を VoiceOver で読み上げる
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

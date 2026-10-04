@@ -11,6 +11,7 @@
 		2E7A91312DF8179000B5A001 /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91302DF8179000B5A001 /* FloatingActionButton.swift */; };
 		2E7A91332DF8179000B5A001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91322DF8179000B5A001 /* SettingsView.swift */; };
 		2E7A91352DF8179000B5A001 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91342DF8179000B5A001 /* MainTabView.swift */; };
+		2E7A91372DF8179000B5A001 /* MainNavigationBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91362DF8179000B5A001 /* MainNavigationBarStyle.swift */; };
 		2E5386DB2C021AD5004C02CB /* LocationAccuracy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5386DA2C021AD5004C02CB /* LocationAccuracy.swift */; };
 		2E0F38A12DE8676800F09F22 /* FootprintRouteSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F38A02DE8676800F09F22 /* FootprintRouteSummary.swift */; };
 		2E6D3C3F2DE8532E0068F701 /* Footprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6D3C3E2DE8532E0068F701 /* Footprint.swift */; };
@@ -54,6 +55,7 @@
 		2E7A91302DF8179000B5A001 /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
 		2E7A91322DF8179000B5A001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2E7A91342DF8179000B5A001 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		2E7A91362DF8179000B5A001 /* MainNavigationBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBarStyle.swift; sourceTree = "<group>"; };
 		2E5386DA2C021AD5004C02CB /* LocationAccuracy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAccuracy.swift; sourceTree = "<group>"; };
 		2E0F38A02DE8676800F09F22 /* FootprintRouteSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintRouteSummary.swift; sourceTree = "<group>"; };
 		2E6D3C3E2DE8532E0068F701 /* Footprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footprint.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				2E7A91302DF8179000B5A001 /* FloatingActionButton.swift */,
 				2E7A91322DF8179000B5A001 /* SettingsView.swift */,
 				2E7A91342DF8179000B5A001 /* MainTabView.swift */,
+				2E7A91362DF8179000B5A001 /* MainNavigationBarStyle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				2E7A91312DF8179000B5A001 /* FloatingActionButton.swift in Sources */,
 				2E7A91332DF8179000B5A001 /* SettingsView.swift in Sources */,
 				2E7A91352DF8179000B5A001 /* MainTabView.swift in Sources */,
+				2E7A91372DF8179000B5A001 /* MainNavigationBarStyle.swift in Sources */,
 				2E8CA4462BE652AA00532B5A /* MapSampleApp.swift in Sources */,
 				2E6D3C3F2DE8532E0068F701 /* Footprint.swift in Sources */,
 				2E0F38A12DE8676800F09F22 /* FootprintRouteSummary.swift in Sources */,
