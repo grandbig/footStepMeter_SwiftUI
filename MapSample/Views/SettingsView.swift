@@ -5,19 +5,29 @@
 //  Created by Takahiro Kato on 2026/10/04.
 //
 
+import SwiftData
 import SwiftUI
 
-/// 設定画面。
-/// - Note: 中身（足跡履歴、このアプリについて、ライセンス表示）は今後実装する
+/// 設定画面。足跡履歴とこのアプリについての画面へ遷移する。
 struct SettingsView: View {
+
+    /// 足跡履歴一覧に表示する足跡のサマリを管理する。
+    let history: FootprintHistory
 
     var body: some View {
         NavigationStack {
-            ContentUnavailableView(
-                "Coming Soon",
-                systemImage: "gearshape",
-                description: Text("Footprint history and app information will be available here.")
-            )
+            List {
+                NavigationLink {
+                    FootprintHistoryView(history: history)
+                } label: {
+                    Label("FOOTPRINT HISTORY", systemImage: "shoeprints.fill")
+                }
+                NavigationLink {
+                    AboutAppView()
+                } label: {
+                    Label("ABOUT APP", systemImage: "info.circle")
+                }
+            }
             .navigationTitle("SETTINGS")
             .mainNavigationBarStyle()
         }
@@ -27,5 +37,8 @@ struct SettingsView: View {
 // MARK: - Preview
 
 #Preview {
-    SettingsView()
+    let container = try! ModelContainer(for: Footprint.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let store = FootprintStore(modelContext: container.mainContext)
+    return SettingsView(history: FootprintHistory(store: store))
+        .modelContainer(container)
 }

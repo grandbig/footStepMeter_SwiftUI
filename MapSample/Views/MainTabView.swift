@@ -17,6 +17,8 @@ struct MainTabView: View {
     let recorder: FootprintRecorder
     /// FOOT VIEW で地図に表示する足跡を管理する。
     let viewer: FootprintViewer
+    /// 足跡履歴一覧に表示する足跡のサマリを管理する。
+    let history: FootprintHistory
 
     var body: some View {
         TabView {
@@ -24,7 +26,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label("MAP", systemImage: "map")
                 }
-            SettingsView()
+            SettingsView(history: history)
                 .tabItem {
                     Label("SETTINGS", systemImage: "gearshape")
                 }
@@ -40,6 +42,6 @@ struct MainTabView: View {
     let store = FootprintStore(modelContext: container.mainContext)
     let manager = LocationManager()
     let recorder = FootprintRecorder(store: store, locations: manager.locationsPublisher)
-    return MainTabView(manager: manager, recorder: recorder, viewer: FootprintViewer(store: store))
+    return MainTabView(manager: manager, recorder: recorder, viewer: FootprintViewer(store: store), history: FootprintHistory(store: store))
         .modelContainer(container)
 }
