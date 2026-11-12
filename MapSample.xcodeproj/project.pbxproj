@@ -31,6 +31,10 @@
 		2E8CA4632BE652B100532B5A /* MapSampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4622BE652B100532B5A /* MapSampleUITestsLaunchTests.swift */; };
 		2E8CA4712BE6536200532B5A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4702BE6536200532B5A /* MapView.swift */; };
 		2E8CA4762BE65AA900532B5A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8CA4752BE65AA900532B5A /* LocationManager.swift */; };
+		2E7A91392DF8179000B5A001 /* FootprintHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91382DF8179000B5A001 /* FootprintHistory.swift */; };
+		2E7A913B2DF8179000B5A001 /* FootprintHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */; };
+		2E7A913D2DF8179000B5A001 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913C2DF8179000B5A001 /* AboutAppView.swift */; };
+		2E7A913F2DF8179000B5A001 /* FootprintHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913E2DF8179000B5A001 /* FootprintHistoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +83,10 @@
 		2E8CA4702BE6536200532B5A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		2E8CA4752BE65AA900532B5A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		2EA9FDB62BE667970070273B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2E7A91382DF8179000B5A001 /* FootprintHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistory.swift; sourceTree = "<group>"; };
+		2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistoryView.swift; sourceTree = "<group>"; };
+		2E7A913C2DF8179000B5A001 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
+		2E7A913E2DF8179000B5A001 /* FootprintHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +130,7 @@
 				2E0F38A02DE8676800F09F22 /* FootprintRouteSummary.swift */,
 				2E7A91272DF8179000B5A001 /* FootprintRecorder.swift */,
 				2E7A912B2DF8179000B5A001 /* FootprintViewer.swift */,
+				2E7A91382DF8179000B5A001 /* FootprintHistory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -186,6 +195,7 @@
 				2E7A91252DF8179000B5A001 /* FootprintStoreTests.swift */,
 				2E7A91292DF8179000B5A001 /* FootprintRecorderTests.swift */,
 				2E7A912D2DF8179000B5A001 /* FootprintViewerTests.swift */,
+				2E7A913E2DF8179000B5A001 /* FootprintHistoryTests.swift */,
 			);
 			path = MapSampleTests;
 			sourceTree = "<group>";
@@ -206,6 +216,8 @@
 				2E5386D72C021884004C02CB /* PickerView.swift */,
 				2E7A91302DF8179000B5A001 /* FloatingActionButton.swift */,
 				2E7A91322DF8179000B5A001 /* SettingsView.swift */,
+				2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */,
+				2E7A913C2DF8179000B5A001 /* AboutAppView.swift */,
 				2E7A91342DF8179000B5A001 /* MainTabView.swift */,
 				2E7A91362DF8179000B5A001 /* MainNavigationBarStyle.swift */,
 			);
@@ -348,6 +360,8 @@
 				2E5386D82C021884004C02CB /* PickerView.swift in Sources */,
 				2E7A91312DF8179000B5A001 /* FloatingActionButton.swift in Sources */,
 				2E7A91332DF8179000B5A001 /* SettingsView.swift in Sources */,
+				2E7A913B2DF8179000B5A001 /* FootprintHistoryView.swift in Sources */,
+				2E7A913D2DF8179000B5A001 /* AboutAppView.swift in Sources */,
 				2E7A91352DF8179000B5A001 /* MainTabView.swift in Sources */,
 				2E7A91372DF8179000B5A001 /* MainNavigationBarStyle.swift in Sources */,
 				2E8CA4462BE652AA00532B5A /* MapSampleApp.swift in Sources */,
@@ -357,6 +371,7 @@
 				2E7A91242DF8179000B5A001 /* FootprintStore.swift in Sources */,
 				2E7A91282DF8179000B5A001 /* FootprintRecorder.swift in Sources */,
 				2E7A912C2DF8179000B5A001 /* FootprintViewer.swift in Sources */,
+				2E7A91392DF8179000B5A001 /* FootprintHistory.swift in Sources */,
 				2E5386DB2C021AD5004C02CB /* LocationAccuracy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +384,7 @@
 				2E7A91262DF8179000B5A001 /* FootprintStoreTests.swift in Sources */,
 				2E7A912A2DF8179000B5A001 /* FootprintRecorderTests.swift in Sources */,
 				2E7A912E2DF8179000B5A001 /* FootprintViewerTests.swift in Sources */,
+				2E7A913F2DF8179000B5A001 /* FootprintHistoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,6 +19,8 @@ struct MapSampleApp: App {
     private let recorder: FootprintRecorder
     /// FOOT VIEW で地図に表示する足跡を管理する。
     private let viewer: FootprintViewer
+    /// 足跡履歴一覧に表示する足跡のサマリを管理する。
+    private let history: FootprintHistory
 
     init() {
         do {
@@ -29,11 +31,12 @@ struct MapSampleApp: App {
         let store = FootprintStore(modelContext: container.mainContext)
         recorder = FootprintRecorder(store: store, locations: locationManager.locationsPublisher)
         viewer = FootprintViewer(store: store)
+        history = FootprintHistory(store: store)
     }
 
     var body: some Scene {
         WindowGroup {
-            MainTabView(manager: locationManager, recorder: recorder, viewer: viewer)
+            MainTabView(manager: locationManager, recorder: recorder, viewer: viewer, history: history)
         }
         .modelContainer(container)
     }
