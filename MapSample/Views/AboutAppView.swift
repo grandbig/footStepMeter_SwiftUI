@@ -25,7 +25,8 @@ struct AboutAppView: View {
                 Text("Tap the FOOT VIEW button on the MAP tab. Tap it again to hide them.")
             }
             Section("Check your footprint history") {
-                Text("Select FOOTPRINT HISTORY on the SETTINGS tab.")
+                Text("1. Select FOOTPRINT HISTORY on the SETTINGS tab")
+                Text("2. Select the title you want to check")
             }
             Section {
                 LabeledContent("Version", value: Self.version)

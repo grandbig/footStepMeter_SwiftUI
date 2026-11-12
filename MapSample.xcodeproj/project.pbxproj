@@ -35,6 +35,8 @@
 		2E7A913B2DF8179000B5A001 /* FootprintHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */; };
 		2E7A913D2DF8179000B5A001 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913C2DF8179000B5A001 /* AboutAppView.swift */; };
 		2E7A913F2DF8179000B5A001 /* FootprintHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A913E2DF8179000B5A001 /* FootprintHistoryTests.swift */; };
+		2E7A91412DF8179000B5A001 /* FootprintThinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91402DF8179000B5A001 /* FootprintThinner.swift */; };
+		2E7A91432DF8179000B5A001 /* FootprintHistoryMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7A91422DF8179000B5A001 /* FootprintHistoryMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistoryView.swift; sourceTree = "<group>"; };
 		2E7A913C2DF8179000B5A001 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		2E7A913E2DF8179000B5A001 /* FootprintHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistoryTests.swift; sourceTree = "<group>"; };
+		2E7A91402DF8179000B5A001 /* FootprintThinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintThinner.swift; sourceTree = "<group>"; };
+		2E7A91422DF8179000B5A001 /* FootprintHistoryMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintHistoryMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,7 @@
 				2E7A91272DF8179000B5A001 /* FootprintRecorder.swift */,
 				2E7A912B2DF8179000B5A001 /* FootprintViewer.swift */,
 				2E7A91382DF8179000B5A001 /* FootprintHistory.swift */,
+				2E7A91402DF8179000B5A001 /* FootprintThinner.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 				2E7A91302DF8179000B5A001 /* FloatingActionButton.swift */,
 				2E7A91322DF8179000B5A001 /* SettingsView.swift */,
 				2E7A913A2DF8179000B5A001 /* FootprintHistoryView.swift */,
+				2E7A91422DF8179000B5A001 /* FootprintHistoryMapView.swift */,
 				2E7A913C2DF8179000B5A001 /* AboutAppView.swift */,
 				2E7A91342DF8179000B5A001 /* MainTabView.swift */,
 				2E7A91362DF8179000B5A001 /* MainNavigationBarStyle.swift */,
@@ -361,6 +367,7 @@
 				2E7A91312DF8179000B5A001 /* FloatingActionButton.swift in Sources */,
 				2E7A91332DF8179000B5A001 /* SettingsView.swift in Sources */,
 				2E7A913B2DF8179000B5A001 /* FootprintHistoryView.swift in Sources */,
+				2E7A91432DF8179000B5A001 /* FootprintHistoryMapView.swift in Sources */,
 				2E7A913D2DF8179000B5A001 /* AboutAppView.swift in Sources */,
 				2E7A91352DF8179000B5A001 /* MainTabView.swift in Sources */,
 				2E7A91372DF8179000B5A001 /* MainNavigationBarStyle.swift in Sources */,
@@ -372,6 +379,7 @@
 				2E7A91282DF8179000B5A001 /* FootprintRecorder.swift in Sources */,
 				2E7A912C2DF8179000B5A001 /* FootprintViewer.swift in Sources */,
 				2E7A91392DF8179000B5A001 /* FootprintHistory.swift in Sources */,
+				2E7A91412DF8179000B5A001 /* FootprintThinner.swift in Sources */,
 				2E5386DB2C021AD5004C02CB /* LocationAccuracy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
