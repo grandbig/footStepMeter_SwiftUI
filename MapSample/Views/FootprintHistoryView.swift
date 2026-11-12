@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-/// 足跡履歴一覧画面。保存済みの足跡をタイトルごとに件数付きで表示する。
+/// 足跡履歴一覧画面。保存済みの足跡をタイトルごとに件数付きで表示し、選んだタイトルの履歴マップへ遷移する。
 struct FootprintHistoryView: View {
 
     /// 一覧に表示する足跡のサマリを管理する。
@@ -27,7 +27,11 @@ struct FootprintHistoryView: View {
                 )
             } else {
                 List(history.summaries) { summary in
-                    FootprintHistoryRow(summary: summary)
+                    NavigationLink {
+                        FootprintHistoryMapView(title: summary.title, history: history)
+                    } label: {
+                        FootprintHistoryRow(summary: summary)
+                    }
                 }
             }
         }

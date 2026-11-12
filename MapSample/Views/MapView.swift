@@ -14,15 +14,16 @@ struct MapView: View {
     /// 表示する足跡。
     let footprints: [Footprint]
 
-    /// マップに対するカメラ位置。
-    @State var position: MapCameraPosition = .userLocation(fallback: .camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: 35.689247, longitude: 139.812784), distance: 1000)))
+    /// 地図を表示したときのカメラ位置。
+    /// - Note: 既定では現在地を中心にする（取得できない場合は東京）
+    var initialPosition: MapCameraPosition = .userLocation(fallback: .camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: 35.689247, longitude: 139.812784), distance: 1000)))
     /// 詳細を表示している足跡のID。
     @State private var selectedFootprintID: UUID?
     /// 地図の向き（北からの角度）。
     @State private var mapHeading: CLLocationDirection = 0
 
     var body: some View {
-        Map(initialPosition: position) {
+        Map(initialPosition: initialPosition) {
             ForEach(footprints, id: \.id) { footprint in
                 Annotation(footprint.coordinateText, coordinate: footprint.coordinate) {
                     FootprintAnnotationView(footprint: footprint, mapHeading: mapHeading, isSelected: selectedFootprintID == footprint.id)

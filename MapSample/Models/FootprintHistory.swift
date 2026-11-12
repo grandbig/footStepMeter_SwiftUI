@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 足跡履歴一覧に表示する、タイトル別の足跡サマリを管理する。
+/// 足跡履歴一覧と履歴マップに表示する足跡を管理する。
 /// - Note: メインスレッドから利用する（一覧を View が購読するため）
 final class FootprintHistory: ObservableObject {
 
@@ -25,5 +25,12 @@ final class FootprintHistory: ObservableObject {
     /// - Note: 読み込みに失敗した場合は、直前に読み込んだサマリを残す
     func reload() throws {
         summaries = try store.routeSummaries()
+    }
+
+    /// 履歴マップに表示する、指定したタイトルの足跡を取得する。
+    /// - Parameter title: 計測タイトル
+    /// - Returns: 記録順の足跡（立ち止まっている間に重なって記録された足跡は間引く）
+    func footprints(title: String) throws -> [Footprint] {
+        FootprintThinner.thinned(try store.footprints(title: title))
     }
 }
